@@ -104,4 +104,7 @@ router.post('/register', function(req, res, next) {
 	res.redirect("/");
 });
 
+
+
+
 module.exports = router;

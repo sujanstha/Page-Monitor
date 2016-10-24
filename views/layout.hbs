@@ -40,8 +40,14 @@
         <div id="navbar" class="navbar-collapse collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="active"><a href="/">Home</a></li>
-            <li><a href="/users/register">Register</a></li>
-            <li><a href="/users/login">Login</a></li>
+            {{#if user}}
+              <li><a href="/dashboard">Dashboard</a></li>
+              <li><a href="/monitor-new-page">Monitor a New Page</a></li>
+              <li><h4 style="color:#fff;margin-top:15px;margin-left:15px;">Hello, {{ user.displayName }}</h4></li>
+            {{else}}
+              <li><a href="/users/register">Register</a></li>
+              <li><a href="/users/login">Login</a></li>
+            {{/if}}
           </ul>
         </div><!--/.navbar-collapse -->
       </div>

@@ -1,11 +1,36 @@
 <div class="row">
-	<div class="col-md-12" style="margin-top:20px;">
+	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3" style="margin-top:20px;">
 		<form>
+			<h1 class="form-signin-heading">Add a new page to monitor</h1>
+			<hr>
 		  <div class="form-group">
-		    <label for="exampleInputEmail1">Email address</label>
-		    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+		    <label for="page-title">Page Title</label>
+		    <input type="text" class="form-control" id="page-title" placeholder="Enter Page Title">
 		  </div>
-		  
-		</form>	
+
+			<div class="form-group">
+		    <label for="page-title">Page Link</label>
+		    <input type="text" class="form-control" id="page-link" placeholder="Enter Page Link" required>
+		  </div>
+
+			<div class="form-group">
+      <label for="frequency">Frequency</label>
+      <select class="form-control" id="frequency">
+				<option>Every hour</option>
+				<option selected>Everyday</option>
+        <option>Every 2 days</option>
+        <option>Every week</option>
+        <option>Every month</option>
+      </select>
+		</div>
+
+			<div class="form-group">
+		    <label for="page-title">Keywords</label>
+		    <input type="text" class="form-control" id="keywords" placeholder="Enter multiple keywords separated by comma">
+		  </div>
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+
+		</form>
 	</div>
 </div>

@@ -12,6 +12,15 @@ var router = express.Router();
   };
   firebase.initializeApp(config);
 
+// Check Auth State
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log(user.email, " signed in!");
+  } else {
+    console.log("Not signed in!");
+  }
+});
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -20,57 +29,72 @@ router.get('/', function(req, res, next) {
 
 /* GET User Login Page */
 router.get('/login', function(req, res, next) {
-  res.render('users/login', { title: 'Login' });
+  // Check if there is a current user session. If any one is logged in, redirect to dashboard page.
+  var user = firebase.auth().currentUser;
+  if (user) {
+    // User is signed in.
+    return res.redirect("/dashboard");
+  } else {
+    // No user is signed in.
+    res.render('users/login', { title: 'Login' });
+  }
 });
 
 
 /* POST User Login Page */
 router.post('/login', function(req, res, next) {
     var somethingGoesWrong = false;
-	if (somethingGoesWrong) 
+	if (somethingGoesWrong)
 	{
 	    vm = {
-	    	title: 'Register',
+	    	title: 'Login',
 	        input: req.body
 	    };
 	    delete vm.input.password;
 	    return res.render('users/login', vm);
 	}
 
-	firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).catch(function(error) {
+	firebase.auth().signInWithEmailAndPassword(req.body.email, req.body.password).then(response => {
+    /* your logic here */
+    var user = firebase.auth().currentUser;
+  	var name, email, photoUrl, uid;
+
+  	if (user != null) {
+  		vm = {
+  			title: user.fullName,
+  		  	email:  user.email,
+  		  	uid: user.uid  // The user's ID, unique to the Firebase project. Do NOT use
+  		                   // this value to authenticate with your backend server, if
+  		                   // you have one. Use User.getToken() instead.
+  		};
+      return res.redirect('/dashboard');
+  	}
+  })
+.catch(function(error) {
 	  // Handle Errors here.
 	  var errorCode = error.code;
 	  var errorMessage = error.message;
-	  // ...
+    return res.render('users/login', vm);
 	});
-
-	var user = firebase.auth().currentUser;
-	var name, email, photoUrl, uid;
-
-	if (user != null) {
-		vm = {
-			title: user.fullName,
-		  	email:  user.email,
-		  	uid: user.uid  // The user's ID, unique to the Firebase project. Do NOT use
-		                   // this value to authenticate with your backend server, if
-		                   // you have one. Use User.getToken() instead.
-		};
-		return res.render('users/login', vm);
-	}
-	res.render('users/login', {title: "LoginR"});
-
-
 });
 
 /* GET User Registration Page */
 router.get('/register', function(req, res, next) {
-  res.render('users/register', { title: 'Register' });
+  // Check if there is a current user session. If any one is logged in, redirect to dashboard page.
+  var user = firebase.auth().currentUser;
+  if (user) {
+    // User is signed in.
+    return res.redirect("/dashboard");
+  } else {
+    // No user is signed in.
+    res.render('users/register', { title: 'Register' });
+  }
 });
 
 /* POST User Registration Page */
 router.post('/register', function(req, res, next) {
 	var somethingGoesWrong = false;
-	if (somethingGoesWrong) 
+	if (somethingGoesWrong)
 	{
 		vm ={
 		title: "Register",
@@ -81,27 +105,29 @@ router.post('/register', function(req, res, next) {
 	}
 
 	// Creating a new user
-	firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).catch(function(error) {
+	firebase.auth().createUserWithEmailAndPassword(req.body.email, req.body.password).then(response => {
+    /* your logic here */
+    var user = firebase.auth().currentUser;
+
+  	user.updateProfile({
+  	  displayName: req.body.fullName
+  	}).then(function() {
+  	  // Update successful.
+  	  console.log("User's full name added.");
+  	}, function(error) {
+  	  // An error happened.
+  	  console.log("User's full name cannot be added.");
+  	});
+    res.redirect("/");
+  })
+.catch(function(error) {
 	  // Handle Errors here.
 	  var errorCode = error.code;
 	  var errorMessage = error.message;
 	  console.log(errorMessage);
+    res.redirect("/users/login");
 	  // ...
 	});
-
-	var user = firebase.auth().currentUser;
-
-	user.updateProfile({
-	  displayName: req.body.fullName
-	}).then(function() {
-	  // Update successful.
-	  console.log("User's full name added.");
-	}, function(error) {
-	  // An error happened.
-	  console.log("User's full name cannot be added.");
-	});
-
-	res.redirect("/");
 });
 
 

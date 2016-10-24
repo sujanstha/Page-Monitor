@@ -44,6 +44,7 @@ router.get('/login', function(req, res, next) {
 /* POST User Login Page */
 router.post('/login', function(req, res, next) {
     var somethingGoesWrong = false;
+    var vm = {title: 'Login'};
 	if (somethingGoesWrong)
 	{
 	    vm = {
@@ -76,6 +77,16 @@ router.post('/login', function(req, res, next) {
 	  var errorMessage = error.message;
     return res.render('users/login', vm);
 	});
+});
+
+/* GET User Loout Page */
+router.get('/logout', function(req, res, next) {
+  firebase.auth().signOut().then(function() {
+    res.redirect('/');
+  }, function(error) {
+    // An error happened.
+    console.error(error);
+  });
 });
 
 /* GET User Registration Page */

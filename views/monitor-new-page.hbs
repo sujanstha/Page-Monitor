@@ -1,21 +1,21 @@
 <div class="row">
 	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3" style="margin-top:20px;">
-		<form>
+		<form method="POST">
 			<h1 class="form-signin-heading">Add a new page to monitor</h1>
 			<hr>
 		  <div class="form-group">
-		    <label for="page-title">Page Title</label>
-		    <input type="text" class="form-control" id="page-title" placeholder="Enter Page Title">
+		    <label for="pageTitle">Page Title</label>
+		    <input type="text" class="form-control" id="pageTitle" name="pageTitle" placeholder="Enter Page Title">
 		  </div>
 
 			<div class="form-group">
-		    <label for="page-title">Page Link</label>
-		    <input type="text" class="form-control" id="page-link" placeholder="Enter Page Link" required>
+		    <label for="pageLink">Page Link</label>
+		    <input type="text" class="form-control" id="pageLink" name="pageLink" placeholder="Enter Page Link" required>
 		  </div>
 
 			<div class="form-group">
       <label for="frequency">Frequency</label>
-      <select class="form-control" id="frequency">
+      <select class="form-control" id="frequency" name="frequency">
 				<option>Every hour</option>
 				<option selected>Everyday</option>
         <option>Every 2 days</option>
@@ -25,8 +25,8 @@
 		</div>
 
 			<div class="form-group">
-		    <label for="page-title">Keywords</label>
-		    <input type="text" class="form-control" id="keywords" placeholder="Enter multiple keywords separated by comma">
+		    <label for="keywords">Keywords</label>
+		    <input type="text" class="form-control" id="keywords" name="keywords" placeholder="Enter multiple keywords separated by comma">
 		  </div>
 
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>

@@ -17,8 +17,21 @@ router.get('/', function(req, res, next) {
 });
 
 /* POST Monitor a new Page */
-router.get('/', function(req, res, next) {
-
+router.post('/', function(req, res, next) {
+	var firebaseRef = firebase.database().ref();
+	var webpageRef = firebaseRef.child("webpage"); // getting child refrence
+	// Pushing data to firebase
+  webpageRef.push(
+  {
+		pageTitle: req.body.pageTitle,
+		pageLink: req.body.pageLink,
+		frequency: req.body.frequency,
+		keywords: req.body.keywords
+  }
+  ).then(response => {
+		console.log("Webpage added for monitor.");
+		res.redirect('/dashboard');
+	});
 });
 
 module.exports = router;

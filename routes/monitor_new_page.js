@@ -26,7 +26,10 @@ router.post('/', function(req, res, next) {
 		pageTitle: req.body.pageTitle,
 		pageLink: req.body.pageLink,
 		frequency: req.body.frequency,
-		keywords: req.body.keywords
+		keywords: req.body.keywords,
+		lastChecked: 'NA',
+		lastModified: 'NA',
+		source: 'NA'
   }
   ).then(response => {
 		console.log("Webpage added for monitor.");

@@ -19,7 +19,12 @@ router.get('/', function(req, res, next) {
 
 	if (user) {
 	  // User is signed in.
-		res.render('dashboard', { title: 'Dashboard', user: user });
+		var firebaseRef = firebase.database().ref();
+		var webpageRef = firebaseRef.child("webpage"); // getting child refrence
+		webpageRef.once("value", function(snapshot) {
+			var webpages = snapshot.val();
+			res.render('dashboard', { title: 'Dashboard', user: user, webpages: webpages });
+		});
 	} else {
 	  // No user is signed in.
 		console.log("Please login to access dashboard.");

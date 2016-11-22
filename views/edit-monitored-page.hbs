@@ -1,0 +1,36 @@
+<div class="row">
+	<div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3" style="margin-top:20px;">
+		<form method="POST">
+			<h1 class="form-signin-heading">Edit Monitored Page</h1>
+			<hr>
+		  <div class="form-group">
+		    <label for="pageTitle">Page Title</label>
+		    <input type="text" class="form-control" id="pageTitle" name="pageTitle" value="{{webpage.pageTitle}}" placeholder="Enter Page Title">
+		  </div>
+
+			<div class="form-group">
+		    <label for="pageLink">Page Link</label>
+		    <input type="text" class="form-control" id="pageLink" name="pageLink" value="{{webpage.pageLink}}" placeholder="Enter Page Link" required>
+		  </div>
+
+			<div class="form-group">
+      <label for="frequency">Frequency</label>
+      <select class="form-control" id="frequency" name="frequency">
+				<option {{#equal webpage.frequency "Every hour"}} selected {{/equal}}>Every hour</option>
+				<option {{#equal webpage.frequency "Everyday"}} selected {{/equal}}>Everyday</option>
+        <option {{#equal webpage.frequency "Every 2 days"}} selected {{/equal}}>Every 2 days</option>
+        <option {{#equal webpage.frequency "Every week"}} selected {{/equal}}>Every week</option>
+        <option {{#equal webpage.frequency "Every month"}} selected {{/equal}}>Every month</option>
+      </select>
+		</div>
+
+			<div class="form-group">
+		    <label for="keywords">Keywords</label>
+		    <input type="text" class="form-control" id="keywords" name="keywords" value="{{webpage.keywords}}" placeholder="Enter multiple keywords separated by comma">
+		  </div>
+
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+
+		</form>
+	</div>
+</div>

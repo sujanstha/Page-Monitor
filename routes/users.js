@@ -60,7 +60,7 @@ router.post('/login', function(req, res, next) {
     var user = firebase.auth().currentUser;
   	var name, email, photoUrl, uid;
 
-  	if (user != null) {
+  	if (user !== null) {
   		vm = {
   			title: user.fullName,
   		  	email:  user.email,
@@ -129,7 +129,15 @@ router.post('/register', function(req, res, next) {
   	  // An error happened.
   	  console.log("User's full name cannot be added.");
   	});
-    res.redirect("/");
+    var firebaseRef = firebase.database().ref();
+  	var webpageRef = firebaseRef.child(user.uid); // getting child refrence
+  	// Pushing data to firebase
+    webpageRef.set({webpages: ''}).then(response => {
+  		console.log("Added");
+      res.redirect("/");
+  	}).catch(function(error) {
+      console.log("Cannot add user data.");
+    });
   })
 .catch(function(error) {
 	  // Handle Errors here.

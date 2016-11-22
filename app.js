@@ -4,6 +4,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var hbs = require('hbs');
+hbs.registerHelper("equal", require("handlebars-helper-equal"));
 
 // Including all the routes
 var routes = require('./routes/index');

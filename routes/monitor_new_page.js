@@ -18,23 +18,35 @@ router.get('/', function(req, res, next) {
 
 /* POST Monitor a new Page */
 router.post('/', function(req, res, next) {
-	var firebaseRef = firebase.database().ref();
-	var webpageRef = firebaseRef.child("webpage"); // getting child refrence
-	// Pushing data to firebase
-  webpageRef.push(
-  {
-		pageTitle: req.body.pageTitle,
-		pageLink: req.body.pageLink,
-		frequency: req.body.frequency,
-		keywords: req.body.keywords,
-		lastChecked: 'NA',
-		lastModified: 'NA',
-		source: 'NA'
-  }
-  ).then(response => {
-		console.log("Webpage added for monitor.");
-		res.redirect('/dashboard');
-	});
+	var user = firebase.auth().currentUser;
+
+	if (user) {
+	  // User is signed in.
+		var userID = user.uid;
+		var firebaseRef = firebase.database().ref();
+		var userRef = firebaseRef.child(userID);
+		var webpageRef = userRef.child("webpages"); // getting child refrence
+		// Pushing data to firebase
+		webpageRef.push(
+		{
+			pageTitle: req.body.pageTitle,
+			pageLink: req.body.pageLink,
+			frequency: req.body.frequency,
+			keywords: req.body.keywords,
+			lastChecked: 'NA',
+			lastModified: 'NA',
+			source: 'NA'
+		}
+		).then(response => {
+			console.log("Webpage added for monitor.");
+			res.redirect('/dashboard');
+		});
+	} else {
+	  // No user is signed in.
+		console.log("Please login to add a new page to monitor.");
+		res.redirect('/users/login');
+	}
+
 });
 
 module.exports = router;
